@@ -31,7 +31,7 @@ router.post('/api/users/signin', [body('email').isEmail().withMessage('Email mus
   req.session = {
     jwt: userJwt,
   }
-  return res.status(201).send(existingUser)
+  return res.status(200).send(existingUser)
 })
 
 export { router as signinRouter }
