@@ -3,9 +3,7 @@ import { User } from '../models/user'
 import { Password } from '../services/password'
 import { body } from 'express-validator'
 import jwt from 'jsonwebtoken'
-import { validateRequest } from '../middlewares/validate-request'
-import { BadRequestError } from '../errors/bad-request-error'
-
+import { validateRequest, BadRequestError } from '@2happytickets/common'
 const router = express.Router()
 
 router.post('/api/users/signin', [body('email').isEmail().withMessage('Email must be valid'), body('password').trim().notEmpty().withMessage('You must supply a password')], validateRequest, async (req: Request, res: Response) => {
