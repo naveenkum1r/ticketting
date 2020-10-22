@@ -2,8 +2,8 @@ import mongoose from 'mongoose'
 import { Password } from '../services/password'
 
 interface userAttrs {
-  email: String
-  password: String
+  email: string
+  password: string
 }
 
 interface UserModel extends mongoose.Model<UserDoc> {
