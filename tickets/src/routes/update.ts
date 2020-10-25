@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express'
 import { body } from 'express-validator'
-import { requireAuth, validateRequest, NotAuthorizedError, NotFoundError } from '@2happytickets/common'
+import { requireAuth, validateRequest, NotAuthorizedError, NotFoundError, BadRequestError } from '@2happytickets/common'
 import { TicketUpdatedPublisher } from '../events/publishers/ticket-updated-publisher'
 import { natsWrapper } from '../nats-wrapper'
 
@@ -13,6 +13,10 @@ router.put('/api/tickets/:id', requireAuth, [body('title').not().isEmpty().withM
 
   if (!ticket) {
     throw new NotFoundError()
+  }
+
+  if (ticket.orderId) {
+    throw new BadRequestError('Cannot edit a reserved ticket')
   }
 
   if (ticket.userId !== req.currentUser!.id) {
@@ -31,6 +35,7 @@ router.put('/api/tickets/:id', requireAuth, [body('title').not().isEmpty().withM
     title: ticket.title,
     price: ticket.price,
     userId: ticket.userId,
+    version: ticket.version,
   })
 
   res.send(ticket)
