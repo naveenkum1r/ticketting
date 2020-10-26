@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express'
 import { BadRequestError, NotFoundError, OrderStatus, requireAuth, validateRequest } from '@2happytickets/common'
 import { body } from 'express-validator'
-import mongoose, { mongo } from 'mongoose'
+import mongoose from 'mongoose'
 import { Ticket } from '../models/ticket'
 import { Order } from '../models/order'
 import { OrderCreatedPublisher } from '../events/publishers/order-created-publishers'
@@ -9,7 +9,7 @@ import { natsWrapper } from '../nats-wrapper'
 
 const router = express.Router()
 
-const EXPIRATION_WINDOW_SECONDS = 15 * 60
+const EXPIRATION_WINDOW_SECONDS = 1 * 60
 router.post(
   '/api/orders',
   requireAuth,

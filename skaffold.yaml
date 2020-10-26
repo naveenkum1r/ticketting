@@ -38,6 +38,22 @@ build:
         manual:
           - src: 'src/**/*.ts'
             dest: .
+    - image: naveenkum2r/expiration
+      context: expiration
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
+    - image: naveenkum2r/payments
+      context: payments
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
 deploy:
   kubectl:
     manifests:
