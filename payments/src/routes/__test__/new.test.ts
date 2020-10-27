@@ -54,7 +54,7 @@ it('returns a 201 with valid inputs', async () => {
   await request(app).post('/api/payments').set('Cookie', global.signin(userId)).send({ token: 'tok_visa', orderId: order.id }).expect(201)
 
   const stripeCharges = await stripe.charges.list({ limit: 50 })
-  const stripeCharge = stripeCharges.data.find((charge) => {
+  const stripeCharge = await stripeCharges.data.find((charge) => {
     return charge.amount === price * 100
   })
 
