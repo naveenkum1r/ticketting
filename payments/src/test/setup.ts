@@ -3,7 +3,6 @@ import mongoose from 'mongoose'
 import { app } from '../app'
 import request from 'supertest'
 import jwt from 'jsonwebtoken'
-import { JsxEmit } from 'typescript'
 
 declare global {
   namespace NodeJS {
@@ -12,6 +11,10 @@ declare global {
     }
   }
 }
+
+jest.mock('../nats-wrapper')
+
+process.env.STRIPE_KEY = 'sk_test_51HgPKFLEldQwh8dZcU6xIQb5HipDEaiq4kiT461gF3DsVOaeGoJliFWlv1qHEG20VDK9myhTi21WhfeqmJ7uW5Fk00ErNI37Hu'
 
 let mongo: any
 beforeAll(async () => {
@@ -35,11 +38,8 @@ beforeEach(async () => {
 afterAll(async () => {
   await mongo.stop()
   await mongoose.connection.close()
+  setTimeout(() => process.exit(), 1000)
 })
-
-process.env.STRIPE_KEY = 'sk_test_51HgPKFLEldQwh8dZcU6xIQb5HipDEaiq4kiT461gF3DsVOaeGoJliFWlv1qHEG20VDK9myhTi21WhfeqmJ7uW5Fk00ErNI37Hu'
-
-jest.mock('../nats-wrapper')
 
 global.signin = (id?: string) => {
   //Build a JWT payload. {id, email}
